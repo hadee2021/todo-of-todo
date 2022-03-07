@@ -1,26 +1,73 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+<div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <router-link class="navbar-brand" :to="{ name: 'Home'}">
+      Home
+    </router-link>
+    
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <router-link class="nav-link" :to="{ name: 'Todos'}">
+        Todos
+        </router-link>
+      </li>
+    </ul>
+  </nav>
+  <div class="container">
+    <router-view/>
+  </div>
+  <transition name="slide">
+    <Toast 
+      v-if="showToast"
+      :message="toastMessage"
+      :type="toastAlertType"
+    />
+  </transition>
+</div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Toast from '@/components/Toast.vue'
+import { useToast } from '@/composables/toast'
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    Toast
+  },
+  setup() {
+    const {
+      toastMessage,
+      toastAlertType,
+      showToast,
+      triggerToast
+    } = useToast()
+
+    return {
+      toastMessage,
+      toastAlertType,
+      showToast,
+      triggerToast
+    }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped>
+  
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: all 0.5s ease;
+  }
+
+  .slide-enter-from,
+  .slide-leave-to {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  .slide-enter-to,
+  .slide-leave-from {
+    opacity: 1;
+    transform: translateY(0px);
+  }
 </style>
