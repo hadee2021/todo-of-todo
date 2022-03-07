@@ -4,7 +4,7 @@
   <div 
     v-for="(todo, index) in todos"
     :key="todo.id"
-    class="card mt-2"
+    class="card mt-2 "
   > -->
   <List
     :items="todos"
